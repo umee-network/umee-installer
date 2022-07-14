@@ -11,7 +11,7 @@ Simple installer with the following features:
 
 #### To install umeed, run the following in your terminal, then follow the on-screen instructions.
 
-Download repo and use command: python3 install.py
+Download repo and use command: python3 install.py (running this script will delete the install.py so be aware of this)
 
 ## HOST AND REPLACE BASH INSTALL COMMAND
 
