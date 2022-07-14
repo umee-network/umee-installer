@@ -11,8 +11,10 @@ Simple installer with the following features:
 
 #### To install umeed, run the following in your terminal, then follow the on-screen instructions.
 
-## HOST AND REPLACE
+Download repo and use command: python3 install.py
+
+## HOST AND REPLACE BASH INSTALL COMMAND
 
 ```bash
-curl -sL https://get.osmosis.zone/install > i.py && python3 i.py
+
 ```

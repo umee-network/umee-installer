@@ -1345,7 +1345,7 @@ any important Umee data before proceeding
 Please choose a node type:
 1) Full Node (download chain data and run locally)
 2) Client Node (setup a daemon and query a public RPC)
-3) LocalUmee Node (setup a daemon and query a localUmeedevelopment RPC)
+3) LocalUmee Node (setup a daemon and query a localUmee development RPC)
         """+ bcolors.ENDC)
         if args.nodeType == 'full':
             node = '1'
