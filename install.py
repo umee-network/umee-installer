@@ -476,7 +476,7 @@ def replayFromGenesisLevelDb ():
     startReplayNow()
 
 
-def replayFromGenesisRocksDb ():
+def replayFromGenesisRocksDb ():  
     print(bcolors.OKCYAN + "Changing db_backend to rocksdb..." + bcolors.ENDC)
     subprocess.run(["sed -i -E 's/db_backend = \"goleveldb\"/db_backend = \"rocksdb\"/g' "+umee_home+"/config/config.toml"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
     print(bcolors.OKCYAN + "Installing rocksdb..." + bcolors.ENDC)
