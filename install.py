@@ -233,7 +233,7 @@ def rlinput(prompt, prefill=''):
       readline.set_startup_hook()
 
 
-def completeCumeevisor():
+def completeCosmovisor():
     print(bcolors.OKCYAN + "Congratulations! You have successfully completed setting up an Umee full node!")
     print(bcolors.OKCYAN + "The cosmovisor service is currently running in the background")
     print(bcolors.OKCYAN + "To see the status of cosmovisor, run the following command: 'sudo systemctl status cosmovisor'")
@@ -304,8 +304,8 @@ def localUmeeComplete():
 
 
 def cosmovisorService ():
-    print(bcolors.OKCYAN + "Creating Cumeevisor Service" + bcolors.ENDC)
-    subprocess.run(["echo '# Setup Cumeevisor' >> "+HOME+"/.profile"], shell=True, env=my_env)
+    print(bcolors.OKCYAN + "Creating Cosmovisor Service" + bcolors.ENDC)
+    subprocess.run(["echo '# Setup Cosmovisor' >> "+HOME+"/.profile"], shell=True, env=my_env)
     subprocess.run(["echo 'export DAEMON_NAME=umeed' >> "+HOME+"/.profile"], shell=True, env=my_env)
     subprocess.run(["echo 'export DAEMON_HOME="+umee_home+"' >> "+HOME+"/.profile"], shell=True, env=my_env)
     subprocess.run(["echo 'export DAEMON_ALLOW_DOWNLOAD_BINARIES=false' >> "+HOME+"/.profile"], shell=True, env=my_env)
@@ -313,7 +313,7 @@ def cosmovisorService ():
     subprocess.run(["echo 'export DAEMON_RESTART_AFTER_UPGRADE=true' >> "+HOME+"/.profile"], shell=True, env=my_env)
     subprocess.run(["echo 'export UNSAFE_SKIP_BACKUP=true' >> "+HOME+"/.profile"], shell=True, env=my_env)
     subprocess.run(["""echo '[Unit]
-Description=Cumeevisor daemon
+Description=Cosmovisor daemon
 After=network-online.target
 [Service]
 Environment=\"DAEMON_NAME=umeed\"
@@ -365,23 +365,23 @@ WantedBy=multi-user.target
 
 
 def cosmovisorInit ():
-    print(bcolors.OKCYAN + """Do you want to use Cumeevisor to automate future upgrades?
+    print(bcolors.OKCYAN + """Do you want to use Cosmovisor to automate future upgrades?
 1) Yes, install cosmovisor and set up background service
 2) No, just set up an umeed background service (recommended)
 3) Don't install cosmovisor and don't set up a background service
     """+ bcolors.ENDC)
     if args.cosmovisorService == "cosmoservice" :
-        useCumeevisor = '1'
+        useCosmovisor = '1'
     elif args.cosmovisorService == "umeeservice" :
-        useCumeevisor = '2'
+        useCosmovisor = '2'
     elif args.cosmovisorService == "noservice" :
-        useCumeevisor = '3'
+        useCosmovisor = '3'
     else:
-        useCumeevisor = input(bcolors.OKCYAN + 'Enter Choice: '+ bcolors.ENDC)
+        useCosmovisor = input(bcolors.OKCYAN + 'Enter Choice: '+ bcolors.ENDC)
 
-    if useCumeevisor == "1":
+    if useCosmovisor == "1":
         subprocess.run(["clear"], shell=True)
-        print(bcolors.OKCYAN + "Setting Up Cumeevisor..." + bcolors.ENDC)
+        print(bcolors.OKCYAN + "Setting Up Cosmovisor..." + bcolors.ENDC)
         os.chdir(os.path.expanduser(HOME))
         subprocess.run(["go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True, env=my_env)
         subprocess.run(["mkdir -p "+umee_home+"/cosmovisor"], shell=True, env=my_env)
@@ -398,13 +398,13 @@ def cosmovisorInit ():
         cosmovisorService()
         subprocess.run(["sudo systemctl start cosmovisor"], shell=True, env=my_env)
         subprocess.run(["clear"], shell=True)
-        completeCumeevisor()
-    elif useCumeevisor == "2":
+        completeCosmovisor()
+    elif useCosmovisor == "2":
         umeedService()
         subprocess.run(["sudo systemctl start umeed"], shell=True, env=my_env)
         subprocess.run(["clear"], shell=True)
         completeUmeed()
-    elif useCumeevisor == "3":
+    elif useCosmovisor == "3":
         subprocess.run(["clear"], shell=True)
         complete()
     else:
@@ -438,7 +438,7 @@ def startReplayNow():
 
 
 def replayFromGenesisLevelDb ():
-    print(bcolors.OKCYAN + "Setting Up Cumeevisor..." + bcolors.ENDC)
+    print(bcolors.OKCYAN + "Setting Up Cosmovisor..." + bcolors.ENDC)
     os.chdir(os.path.expanduser(HOME))
     subprocess.run(["go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True, env=my_env)
     subprocess.run(["mkdir -p "+umee_home+"/cosmovisor"], shell=True, env=my_env)
@@ -491,7 +491,7 @@ def replayFromGenesisRocksDb ():
     subprocess.run(["sudo make install-shared INSTALL_PATH=/usr"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
     subprocess.run(["sudo echo 'export LD_LIBRARY_PATH=/usr/local/lib' >> $HOME/.bashrc"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
     my_env["LD_LIBRARY_PATH"] = "/usr/local/lib"
-    print(bcolors.OKCYAN + "Setting Up Cumeevisor..." + bcolors.ENDC)
+    print(bcolors.OKCYAN + "Setting Up Cosmovisor..." + bcolors.ENDC)
     os.chdir(os.path.expanduser(HOME))
     subprocess.run(["go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@v1.0.0"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True, env=my_env)
     subprocess.run(["mkdir -p "+umee_home+"/cosmovisor"], shell=True, env=my_env)
