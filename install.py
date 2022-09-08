@@ -10,9 +10,6 @@ import sys
 from sys import argv
 from os import remove
 
-# self-destruct file after first call
-remove(argv[0])
-
 class CustomHelpFormatter(argparse.HelpFormatter):
     def _format_action_invocation(self, action):
         if not action.option_strings or action.nargs == 0:
@@ -23,6 +20,8 @@ class CustomHelpFormatter(argparse.HelpFormatter):
             return text[2:].splitlines()
         # this is the RawTextHelpFormatter._split_lines
         return argparse.HelpFormatter._split_lines(self, text, width)
+
+cwd = os.getcwd()
 
 fmt = lambda prog: CustomHelpFormatter(prog,max_help_position=30)
 
@@ -234,12 +233,19 @@ def rlinput(prompt, prefill=''):
       readline.set_startup_hook()
 
 
+def selfDestruct():
+    # remove installer so it cannot be re-invoked
+    os.chdir(cwd)
+    remove(argv[0])
+
+
 def completeCosmovisor():
     print(bcolors.OKCYAN + "Congratulations! You have successfully completed setting up an Umee full node!")
     print(bcolors.OKCYAN + "The cosmovisor service is currently running in the background")
     print(bcolors.OKCYAN + "To see the status of cosmovisor, run the following command: 'sudo systemctl status cosmovisor'")
     print(bcolors.OKCYAN + "To see the live logs from cosmovisor, run the following command: 'journalctl -u cosmovisor -f'")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'"+ bcolors.ENDC)
+    selfDestruct()
     quit()
 
 
@@ -249,6 +255,7 @@ def completeUmeed():
     print(bcolors.OKCYAN + "To see the status of the umee daemon, run the following command: 'sudo systemctl status umeed'")
     print(bcolors.OKCYAN + "To see the live logs from the umee daemon, run the following command: 'journalctl -u umeed -f'")
     print(bcolors.OKCYAN + "In order to use cosmovisor/umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'"+ bcolors.ENDC)
+    selfDestruct()
     quit()
 
 
@@ -257,6 +264,7 @@ def complete():
     print(bcolors.OKCYAN + "The umeed service is NOT running in the background")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'")
     print(bcolors.OKCYAN + "After reloading your terminal and/or profile, you can start umeed with: 'umeed start'"+ bcolors.ENDC)
+    selfDestruct()
     quit()
 
 
@@ -265,6 +273,7 @@ def partComplete():
     print(bcolors.OKCYAN + "The umeed service is NOT running in the background, and your data directory is empty")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'")
     print(bcolors.OKCYAN + "If you intend to use umeed without syncing, you must include the '--node' flag after cli commands with the address of a public RPC node"+ bcolors.ENDC)
+    selfDestruct()
     quit()
 
 
@@ -272,6 +281,7 @@ def clientComplete():
     print(bcolors.OKCYAN + "Congratulations! You have successfully completed setting up an Umee client node!")
     print(bcolors.OKCYAN + "DO NOT start the umee daemon. You can query directly from the command line without starting the daemon!")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'"+ bcolors.ENDC)
+    selfDestruct()
     quit()
 
 
@@ -280,6 +290,7 @@ def replayComplete():
     print(bcolors.OKCYAN + "To see the status of cosmovisor, run the following command: 'sudo systemctl status cosmovisor'")
     print(bcolors.OKCYAN + "To see the live logs from cosmovisor, run the following command: 'journalctl -u cosmovisor -f'")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'"+ bcolors.ENDC)
+    selfDestruct()
     quit()
 
 
@@ -290,6 +301,7 @@ def replayDelay():
     print(bcolors.OKCYAN + "Once reloaded, use the command `cosmosvisor start` to start the replay from genesis process")
     print(bcolors.OKCYAN + "It is recommended to run this in a tmux session if not running in a background service")
     print(bcolors.OKCYAN + "You must use `cosmosvisor start` and not `umeed start` in order to upgrade automatically"+ bcolors.ENDC)
+    selfDestruct()
     quit()
 
 
@@ -301,6 +313,7 @@ def localUmeeComplete():
     print(bcolors.OKCYAN + "Run 'cd $HOME/LocalUmee'")
     print(bcolors.OKCYAN + "Run 'docker-compose up'")
     print(bcolors.OKCYAN + "Run 'umeed status' to check that you are now creating blocks"+ bcolors.ENDC)
+    selfDestruct()
     quit()
 
 
