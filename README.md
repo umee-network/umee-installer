@@ -1,6 +1,7 @@
-# UMEE Installer
+# Install UMEE
 
 ![](screenshot.png)
+
 Simple installer with the following features:
 
 - Installs dependencies
@@ -18,3 +19,5 @@ python3 install.py
 ```
 
 Note: on successful completion, this installer deletes itself to reduce accidental overwriting.
+
+[This is a fork of the awesome works from Osmosis Labs](https://github.com/osmosis-labs/osmosis-installer/)
