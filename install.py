@@ -484,7 +484,7 @@ def replayFromGenesisLevelDb ():
     subprocess.run([". "+HOME+"/.profile"], shell=True, env=my_env)
     subprocess.run(["cp "+ GOPATH +"/bin/umeed "+umee_home+"/cosmovisor/genesis/bin"], shell=True, env=my_env)
     print(bcolors.OKCYAN + "Adding Persistent Peers For Replay..." + bcolors.ENDC)
-    peers = "2dd86ed01eae5673df4452ce5b0dddb549f46a38@34.66.52.160:26656,2dd86ed01eae5673df4452ce5b0dddb549f46a38@34.82.89.95:26656"
+    peers = "08554ecf7c4c33cc809bceefc044c9bd23b933bd@34.146.11.20:26656,da42a6b213dd0e0dcd3b5d6feb662d7bf7a8cee6@34.93.115.217:26656,22d50ffd5abb3a2bef8186816d1aa914092c5ecf@35.189.2.114:26656"
     subprocess.run(["sed -i -E 's/persistent_peers = \"\"/persistent_peers = \""+peers+"\"/g' "+umee_home+"/config/config.toml"], shell=True)
     subprocess.run(["clear"], shell=True)
     startReplayNow()
@@ -551,7 +551,7 @@ def replayFromGenesisRocksDb ():
     subprocess.run(["BUILD_TAGS=rocksdb make install"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True, env=my_env)
     subprocess.run(["sudo /sbin/ldconfig -v"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True, env=my_env)
     print(bcolors.OKCYAN + "Adding Persistent Peers For Replay..." + bcolors.ENDC)
-    peers = "2dd86ed01eae5673df4452ce5b0dddb549f46a38@34.66.52.160:26656,2dd86ed01eae5673df4452ce5b0dddb549f46a38@34.82.89.95:26656"
+    peers = "08554ecf7c4c33cc809bceefc044c9bd23b933bd@34.146.11.20:26656,da42a6b213dd0e0dcd3b5d6feb662d7bf7a8cee6@34.93.115.217:26656,22d50ffd5abb3a2bef8186816d1aa914092c5ecf@35.189.2.114:26656"
     subprocess.run(["sed -i -E 's/persistent_peers = \"\"/persistent_peers = \""+peers+"\"/g' "+umee_home+"/config/config.toml"], shell=True)
     subprocess.run(["clear"], shell=True)
     startReplayNow()
