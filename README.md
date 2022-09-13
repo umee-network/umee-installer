@@ -1,6 +1,8 @@
 # Install UMEE
 
-![](screenshot.png)
+### [https://install.umee.cc](https://install.umee.cc)
+
+[![](screenshot.png)](https://install.umee.cc)
 
 Simple installer with the following features:
 
