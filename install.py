@@ -257,13 +257,6 @@ def rlinput(prompt, prefill=''):
     finally:
         readline.set_startup_hook()
 
-
-def selfDestruct():
-    # remove installer so it cannot be re-invoked
-    os.chdir(cwd)
-    remove(argv[0])
-
-
 def completeCosmovisor():
     print(bcolors.OKCYAN +
           "Congratulations! You have successfully completed setting up an Umee full node!")
@@ -272,7 +265,6 @@ def completeCosmovisor():
     print(bcolors.OKCYAN + "To see the status of cosmovisor, run the following command: 'sudo systemctl status cosmovisor'")
     print(bcolors.OKCYAN + "To see the live logs from cosmovisor, run the following command: 'journalctl -u cosmovisor -f'")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'" + bcolors.ENDC)
-    selfDestruct()
     quit()
 
 
@@ -283,7 +275,6 @@ def completeUmeed():
     print(bcolors.OKCYAN + "To see the status of the umee daemon, run the following command: 'sudo systemctl status umeed'")
     print(bcolors.OKCYAN + "To see the live logs from the umee daemon, run the following command: 'journalctl -u umeed -f'")
     print(bcolors.OKCYAN + "In order to use cosmovisor/umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'" + bcolors.ENDC)
-    selfDestruct()
     quit()
 
 
@@ -293,7 +284,6 @@ def complete():
     print(bcolors.OKCYAN + "The umeed service is NOT running in the background")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'")
     print(bcolors.OKCYAN + "After reloading your terminal and/or profile, you can start umeed with: 'umeed start'" + bcolors.ENDC)
-    selfDestruct()
     quit()
 
 
@@ -304,7 +294,6 @@ def partComplete():
           "The umeed service is NOT running in the background, and your data directory is empty")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'")
     print(bcolors.OKCYAN + "If you intend to use umeed without syncing, you must include the '--node' flag after cli commands with the address of a public RPC node" + bcolors.ENDC)
-    selfDestruct()
     quit()
 
 
@@ -313,7 +302,6 @@ def clientComplete():
           "Congratulations! You have successfully completed setting up an Umee client node!")
     print(bcolors.OKCYAN + "DO NOT start the umee daemon. You can query directly from the command line without starting the daemon!")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'" + bcolors.ENDC)
-    selfDestruct()
     quit()
 
 
@@ -323,7 +311,6 @@ def replayComplete():
     print(bcolors.OKCYAN + "To see the status of cosmovisor, run the following command: 'sudo systemctl status cosmovisor'")
     print(bcolors.OKCYAN + "To see the live logs from cosmovisor, run the following command: 'journalctl -u cosmovisor -f'")
     print(bcolors.OKCYAN + "In order to use umeed from the cli, either reload your terminal or refresh your profile with: 'source ~/.profile'" + bcolors.ENDC)
-    selfDestruct()
     quit()
 
 
@@ -336,7 +323,6 @@ def replayDelay():
     print(bcolors.OKCYAN + "Once reloaded, use the command `cosmosvisor start` to start the replay from genesis process")
     print(bcolors.OKCYAN + "It is recommended to run this in a tmux session if not running in a background service")
     print(bcolors.OKCYAN + "You must use `cosmosvisor start` and not `umeed start` in order to upgrade automatically" + bcolors.ENDC)
-    selfDestruct()
     quit()
 
 
@@ -350,7 +336,6 @@ def localUmeeComplete():
     print(bcolors.OKCYAN + "Run 'docker-compose up'")
     print(bcolors.OKCYAN +
           "Run 'umeed status' to check that you are now creating blocks" + bcolors.ENDC)
-    selfDestruct()
     quit()
 
 
@@ -1660,18 +1645,17 @@ Please choose a node type:
 
 
 if __name__ == "__main__":
-    read_latest_version(args.releaseFile, True)
+    if args.releaseFile is None:
+        # read the latest version tags from uri
+        releasesFile = "https://raw.githubusercontent.com/umee-network/umee-installer/main/latest_releases.json"
+        read_latest_version(releasesFile, False)
+    else:
+        # read the latest version tags from local file
+        read_latest_version(args.releaseFile, True)
     global UMEED_VERSION
-    global PRICE_FEEDER_VERSION
-    global PEGGO_VERSION
-    UMEED_VERSION = latest_releases["umeed"]
+    UMEED_VERSION = latest_releases.get("umeed",None)
     if UMEED_VERSION is None:
-        print("[X] Please check UMEED_VERSION")
-    PRICE_FEEDER_VERSION = latest_releases.get("price-feeder", None)
-    if PRICE_FEEDER_VERSION is None:
-        print("[X] Please check PRICE_FEEDER_VERSION")
-    PEGGO_VERSION = latest_releases.get("peggo", None)
-    if PEGGO_VERSION is None:
-        print("[X] Please check PEGGO_VERSION")
+        print(bcolors.OKCYAN + "[X] Please check Umeed version, Umeed version is empty" + bcolors.ENDC)
+        quit()
 
     start()
