@@ -1378,6 +1378,11 @@ def installLocation():
         subprocess.run(["clear"], shell=True)
         installLocation()
 
+def cloneUmeeRepo():
+    output = os.system(f"git clone --single-branch --depth 1 --branch {UMEED_VERSION} https://github.com/umee-network/umee.git")
+    if output != 0:
+        print(bcolors.OKCYAN + f"Please check the Umee version {UMEED_VERSION}" + bcolors.ENDC)
+        sys.exit(-1)
 
 def initSetup():
     global my_env
@@ -1387,8 +1392,7 @@ def initSetup():
         deps = ["git", "build-essential", "ufw", "curl", "jq", "snapd"]
         install_tools(deps)
         os.chdir(os.path.expanduser(HOME))
-        subprocess.run([f"git clone --single-branch --depth 1 --branch {UMEED_VERSION} https://github.com/umee-network/umee.git"],
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+        cloneUmeeRepo()
         os.chdir(os.path.expanduser(HOME+"/umee"))
         my_env = os.environ.copy()
         my_env["PATH"] = "/"+HOME+"/go/bin:/"+HOME + \
@@ -1422,8 +1426,7 @@ def initSetup():
         install_tools(["wget", "curl", "jq", "git"])
         install_go()
         os.chdir(os.path.expanduser(HOME))
-        subprocess.run([f"git clone --single-branch --depth 1 --branch {UMEED_VERSION} https://github.com/umee-network/umee.git"],
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+        cloneUmeeRepo()
         os.chdir(os.path.expanduser(HOME+"/umee"))
         subprocess.run(["source ~/.profile"], shell=True,
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
