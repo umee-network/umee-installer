@@ -1,8 +1,12 @@
-# Install UMEE
+⚠️ **DEPRECATED** ⚠️
 
-### [https://install.umee.cc](https://install.umee.cc)
+This repo is not maintained. Follow the [Validator Instructions](https://github.com/umee-network/umee/blob/main/docs/VALIDATOR.md) if you want to install a full node.
+
+---
 
 [![](screenshot.png)](https://install.umee.cc)
+
+[https://install.umee.cc](https://install.umee.cc)
 
 Simple installer with the following features:
 
